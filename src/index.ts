@@ -1,5 +1,6 @@
 import Graph from './graph';
-import { point, multiplePoints } from "./examples/point";
+// import { point, multiplePoints } from "./point";
+import { traingle, rect } from "./traingle";
 
 const graph = Graph.init("canvas1", {
   width: 1000,
@@ -32,12 +33,20 @@ graph.canvas.onclick = (e) => {
   const { width, height } = graph.canvas;
   const x = (clientX - left) / (width / 2) - 1;
   const y = 1 - (clientY - top) / (height / 2);
-  graph.clear();
   points.push({
     x,
     y,
     color: getColor(x, y)
   });
+
+  if (points.length % 4 === 0) {
+    console.log(points);
+    graph.clear();
+    for (let i = 0; i < points.length / 4; i++) {
+      console.log(i)
+      rect(graph.ctx, points.slice(i * 4, (i + 1) * 4));
+    }
+  }
   // points.forEach(p => point(graph.ctx, p.x, p.y, p.color));
-  multiplePoints(graph.ctx, points);
+  // multiplePoints(graph.ctx, points);
 }
