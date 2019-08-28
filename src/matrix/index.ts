@@ -8,7 +8,7 @@ type Mat4 = [
 type Vec4 = [number, number, number, number];
 
 class Vector4 {
-  private elements: Float32Array;
+  elements: Float32Array;
   constructor(vec4: Vec4) {
     this.elements = new Float32Array(vec4);
   }
@@ -86,5 +86,49 @@ class Matrix4 {
     return new Vector4(result);
   }
 
+  static setScale = (sx: number, sy: number, sz: number) => {
+    return new Float32Array([
+      sx, 0, 0, 0,
+      0, sy, 0, 0,
+      0, 0, sz, 0,
+      0, 0, 0, 1
+    ]);
+  }
 
+  scale = (sx: number, sy: number, sz: number) => {
+    this.elements[0] *= sx;
+    this.elements[1] *= sx;
+    this.elements[2] *= sx;
+    this.elements[3] *= sx;
+
+    this.elements[4] *= sy;
+    this.elements[5] *= sy;
+    this.elements[6] *= sy;
+    this.elements[7] *= sy;
+
+    this.elements[8] *= sz;
+    this.elements[9] *= sz;
+    this.elements[10] *= sz;
+    this.elements[11] *= sz;
+
+    return this;
+  }
+
+  static setTranslate = (tx: number, ty: number, tz: number) => {
+    return new Float32Array([
+      1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      tx, ty, tz, 1
+    ]);
+  }
+
+  translate = (tx: number, ty: number, tz: number) => {
+    const a = this.elements;
+    this.elements[12] += a[0] * tx + a[4] * ty + a[8] * tz;
+    this.elements[13] += a[1] * tx + a[5] * ty + a[9] * tz;
+    this.elements[14] += a[2] * tx + a[6] * ty + a[10] * tz;
+    this.elements[15] += a[3] * tx + a[7] * ty + a[11] * tz;
+    return this;
+  }
 }

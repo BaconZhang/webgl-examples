@@ -30,30 +30,36 @@ export const multiplePoints = (
   points: {
     x: number,
     y: number,
-    color: [number, number, number, number]
+    color: [number, number, number, number],
+    size: number
   }[],
 ) => {
   const program = initShaders(ctx, vShader, fShader);
 
   const vertices = new Float32Array(
-    points.map(i => [i.x, i.y, ...i.color]).reduce((a, b) => a.concat(b), [])
+    points.map(i => [i.x, i.y, ...i.color, i.size]).reduce((a, b) => a.concat(b), [])
   );
+
   const vertexBuffer = ctx.createBuffer();
   if (vertexBuffer) {
     ctx.bindBuffer(ctx.ARRAY_BUFFER, vertexBuffer);
     ctx.bufferData(ctx.ARRAY_BUFFER, vertices, ctx.STATIC_DRAW);
   }
 
+  const stride = 7 * vertices.BYTES_PER_ELEMENT;
+
   const a_Position = ctx.getAttribLocation(program, "a_Position");
-  ctx.vertexAttribPointer(a_Position, 2, ctx.FLOAT, false, 6 * vertices.BYTES_PER_ELEMENT, 0);
+  ctx.vertexAttribPointer(a_Position, 2, ctx.FLOAT, false, stride, 0);
   ctx.enableVertexAttribArray(a_Position);
 
   const a_Color = ctx.getAttribLocation(program, "a_Color");
-  ctx.vertexAttribPointer(a_Color, 4, ctx.FLOAT, false, 6 * vertices.BYTES_PER_ELEMENT, 2 * vertices.BYTES_PER_ELEMENT);
+  ctx.vertexAttribPointer(a_Color, 4, ctx.FLOAT, false, stride, 2 * vertices.BYTES_PER_ELEMENT);
   ctx.enableVertexAttribArray(a_Color);
 
   const a_PointSize = ctx.getAttribLocation(program, "a_PointSize");
-  ctx.vertexAttrib1f(a_PointSize, 10);
+  ctx.vertexAttribPointer(a_PointSize, 1, ctx.FLOAT, false, stride, 6 * vertices.BYTES_PER_ELEMENT);
+  ctx.enableVertexAttribArray(a_PointSize);
 
-  ctx.drawArrays(ctx.POINTS, 0, points.length);
+  // ctx.drawArrays(ctx.POINTS, 0, points.length);
+  ctx.drawArrays(ctx.TRIANGLES, 0, points.length);
 }
