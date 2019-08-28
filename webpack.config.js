@@ -24,6 +24,14 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
         test: /\.(glsl|vs|fs)$/,
         loader: 'ts-shader-loader'
       }

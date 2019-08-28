@@ -1,43 +1,49 @@
 import Graph from './graph';
-import { point, multiplePoints } from "./point";
+// import { point, multiplePoints } from "./point";
 // import { traingle, rect } from "./traingle";
+import { texture } from "./texture";
+import imgae0 from "./texture/cafelore.jpg";
+import imgae1 from "./texture/1.jpg";
 
 const graph = Graph.init("canvas1", {
-  width: 1000,
-  height: 800,
+  width: 1024,
+  height: 1024,
   style: { position: "absolute" }
 });
 graph.clear();
 
-const points: {
-  x: number;
-  y: number;
-  color: [number, number, number, number],
-  size: number
-}[] = [];
+texture(graph.ctx, [imgae0, imgae1]);
 
-points.push({
-  x: 0,
-  y: 0.5,
-  color: [1, 0, 0, 1],
-  size: 50
-});
 
-points.push({
-  x: -0.5,
-  y: 0.5,
-  color: [0, 1, 0, 1],
-  size: 40
-});
+// const points: {
+//   x: number;
+//   y: number;
+//   color: [number, number, number, number],
+//   size: number
+// }[] = [];
 
-points.push({
-  x: 0.5,
-  y: -0.5,
-  color: [0, 0, 1, 1],
-  size: 30
-});
+// points.push({
+//   x: 0,
+//   y: 0.5,
+//   color: [1, 0, 0, 1],
+//   size: 50
+// });
 
-multiplePoints(graph.ctx, points);
+// points.push({
+//   x: -0.5,
+//   y: 0.5,
+//   color: [0, 1, 0, 1],
+//   size: 40
+// });
+
+// points.push({
+//   x: 0.5,
+//   y: -0.5,
+//   color: [0, 0, 1, 1],
+//   size: 30
+// });
+
+// multiplePoints(graph.ctx, points);
 // const getColor = (x: number, y: number): [number, number, number, number] => {
 //   if (x >= 0 && y >= 0) {
 //     return [1.0, 0.0, 0.0, 1.0];
